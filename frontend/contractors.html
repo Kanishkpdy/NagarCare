@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Contractors</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts/contractor.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Find Independent Contractors</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="complaint.html">Register Complaint</a>
+            <a href="contractors.html">Find Contractors</a>
+        </nav>
+    </header>
+    <main>
+        <form id="contractorForm">
+            <label for="location">Enter Your Location:</label>
+            <input type="text" id="location" placeholder="City or Address" required>
+            <button type="submit">Find Contractors</button>
+        </form>
+
+        <div id="contractorList">
+            <h2>Available Contractors:</h2>
+            <ul id="contractorResults"></ul>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Nagar Care. All rights reserved.</p>
+    </footer>
+</body>
+</html>
