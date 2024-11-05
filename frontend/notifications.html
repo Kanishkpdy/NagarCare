@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Nagar Care</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Nagar Care - Notifications</h1>
+    </header>
+    <main>
+        <div class="notification-container">
+            <h2>Your Notifications</h2>
+            <ul id="notification-list">
+                <!-- Notifications will be populated here dynamically -->
+            </ul>
+        </div>
+    </main>
+    <script>
+        // Example notifications, these can be fetched from the backend API in practice
+        const notifications = [
+            {
+                message: "Your complaint about road damage has been registered successfully.",
+                date: "2024-10-09",
+                action: "Track Progress",
+                link: "track_complaint.html?id=12345"
+            },
+            {
+                message: "Reminder: Your complaint will be automatically closed in 10 days.",
+                date: "2024-10-15",
+                action: "View Details",
+                link: "track_complaint.html?id=12345"
+            },
+            {
+                message: "Your contractor for plumbing services is scheduled for tomorrow.",
+                date: "2024-10-08",
+                action: "Confirm Appointment",
+                link: "confirm_contractor.html?id=67890"
+            }
+        ];
+
+        // Populate notifications in the HTML
+        const notificationList = document.getElementById("notification-list");
+        notifications.forEach(notification => {
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+                <p>${notification.message}</p>
+                <p><strong>Date:</strong> ${notification.date}</p>
+                <a href="${notification.link}">${notification.action}</a>
+            `;
+            notificationList.appendChild(listItem);
+        });
+    </script>
+</body>
+</html>
