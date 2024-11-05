@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation - Nagar Care</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Nagar Care - Confirmation</h1>
+    </header>
+    <main>
+        <div class="confirmation-container">
+            <h2>Action Confirmation</h2>
+            <p id="confirmation-message">Are you sure you want to proceed with this action?</p>
+            <div class="confirmation-buttons">
+                <button id="confirm-button">Yes, Confirm</button>
+                <button id="cancel-button">Cancel</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Sample data to demonstrate dynamic content on confirmation
+        const params = new URLSearchParams(window.location.search);
+        const action = params.get("action") || "proceed";
+
+        const messageMap = {
+            "close_complaint": "Are you sure you want to close your complaint?",
+            "hire_contractor": "Are you sure you want to hire this contractor?"
+        };
+
+        // Display appropriate confirmation message
+        document.getElementById("confirmation-message").textContent = messageMap[action] || "Are you sure you want to proceed with this action?";
+
+        document.getElementById("confirm-button").onclick = function () {
+            // Add code to confirm the action (e.g., make an API call to update the complaint status)
+            alert("Action confirmed. Updating status...");
+            window.location.href = "track_complaint.html";  // Redirect to complaint tracking page or another appropriate page
+        };
+
+        document.getElementById("cancel-button").onclick = function () {
+            // Redirect back or close the confirmation dialog
+            window.location.href = "notifications.html";  // Redirect back to notifications page
+        };
+    </script>
+</body>
+</html>
