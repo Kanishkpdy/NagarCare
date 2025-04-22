@@ -3,36 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Form</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="scripts/complaint.js" defer></script>
-    <title>Register Complaint</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('email').addEventListener('input', function () {
+                const email = document.getElementById('email').value;
+                const emailStatus = document.getElementById('email-status');
+                
+                // Regex pattern for a basic email format check
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                
+                // Check if the email matches the pattern
+                if (emailRegex.test(email)) {
+                    emailStatus.textContent = '✔️';  // Green tick for valid email
+                    emailStatus.className = 'valid';
+                } else {
+                    emailStatus.textContent = '❌';  // Red cross for invalid email
+                    emailStatus.className = 'invalid';
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-    <header>
-        <h1>Register Complaint</h1>
-    </header>
-    <main>
-        <form id="complaintForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" required>
+    <h1>Complaint Registration</h1>
+    <form id="complaint-form">
+        <input type="text" name="name" placeholder="Name" required>
 
-            <label for="contact">Contact Number:</label>
-            <input type="text" id="contact" required>
+        <input type="text" name="contact" placeholder="Contact" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" required>
+        <!-- Email Section with verification status -->
+        <div class="email-field">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <span id="email-status"></span>
+        </div>
 
-            <label for="type">Type of Problem:</label>
-            <input type="text" id="type" required>
+        <textarea name="description" placeholder="Complaint Description" required></textarea>
 
-            <label for="location">Location:</label>
-            <input type="text" id="location" required>
+        <input type="file" name="photo" accept="image/*">
 
-            <label for="photo">Upload Photo:</label>
-            <input type="file" id="photo">
+        <input type="text" name="location" placeholder="Location" required>
 
-            <button type="submit">Submit Complaint</button>
-        </form>
-    </main>
+        <button type="submit">Submit Complaint</button>
+    </form>
+
+    <script>
+        document.getElementById('complaint-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('/submit-complaint', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = `/confirmation?id=${data.complaintId}`;
+                } else {
+                    alert('Error submitting complaint');
+                }
+            })
+            .catch(error => console.log('Error:', error));
+        });
+    </script>
 </body>
 </html>
