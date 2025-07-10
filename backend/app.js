@@ -125,6 +125,63 @@ The Nagar Care Team`
             }
         });
 
+        //Sent mail to respective authoroties of nagar nigam
+        const authorityEmails = [
+            'commissioner@nagar-nigam.gov.in',
+            'mayor@nagar-nigam.gov.in',
+            'grievance@nagar-nigam.gov.in'
+            ];
+        // Email to Nagar Nigam Authorities on behalf of user
+                const authorityMail = {
+                    from: 'nagarcare@gmail.com',
+                    to: authorityEmails.join(', '), // Array of Nagar Nigam officer emails
+                    subject: `New Public Complaint Registered – Complaint ID: ${complaintId}`,
+                    text: `To: Respected Nagar Nigam Authority,
+
+We wish to inform you that a new public grievance has been registered by a citizen through the NagarCare public complaint system. The details of the complaint are provided below for your kind attention and necessary action.
+
+–––––––––––––––––––––––––––––––––––––––––––
+📌 Complaint Details:
+–––––––––––––––––––––––––––––––––––––––––––
+
+• Complaint ID      : ${complaintId}
+• Complainant Name  : ${name}
+• Contact Number    : ${contact}
+• Email Address     : ${email}
+• Location Mentioned: ${location}
+
+📝 Complaint Description:
+${description}
+
+${photoPath ? '📷 A photo has been attached to support the complaint. Please refer to the portal to access the image.' : 'No image attachment was submitted with this complaint.'}
+
+–––––––––––––––––––––––––––––––––––––––––––
+
+This complaint has been formally submitted by the complainant via the NagarCare portal, which facilitates transparent and efficient redressal of civic issues. We request your department to kindly review and initiate appropriate steps for resolution.
+
+Please acknowledge receipt of this complaint and proceed in accordance with the municipal redressal workflow.
+
+If further information is required, the complainant may be contacted directly using the contact details provided above, or NagarCare can coordinate on their behalf.
+
+Thank you for your attention to this matter.
+
+Sincerely,  
+NagarCare Team  
+📮 nagarcare@gmail.com`
+};
+
+        transporter.sendMail(authorityMail, (error, info) => {
+        if (error) {
+            console.error('Error sending authority email:', error);
+        } else {
+            console.log('Authority email sent:', info.response);
+        }
+        });
+
+        
+
+
+
         // Post complaint to Twitter (optional)
         // Prepare content for the tweet
         const tweetContent = `Complaint Registered: ${description} at ${location}`;
