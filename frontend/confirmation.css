@@ -1,0 +1,92 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc; /* Light background color */
+    height: 100vh;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    background-color: #fff; /* White background for the confirmation box */
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+#complaint-id {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #3498db; /* Soft blue color for complaint ID */
+    margin: 15px 0;
+}
+
+button {
+    background-color: #3498db; /* Soft blue color */
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+a {
+    text-decoration: none;
+    color: #3498db; /* Blue color for the link */
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    #complaint-id {
+        font-size: 1.8rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+}

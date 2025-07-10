@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Form</title>
+    <link rel="stylesheet" href="complaintstyles.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('email').addEventListener('input', function () {
+                const email = document.getElementById('email').value;
+                const emailStatus = document.getElementById('email-status');
+                
+                // Regex pattern for a basic email format check
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                
+                // Check if the email matches the pattern
+                if (emailRegex.test(email)) {
+                    emailStatus.textContent = '✔️';  // Green tick for valid email
+                    emailStatus.className = 'valid';
+                } else {
+                    emailStatus.textContent = '❌';  // Red cross for invalid email
+                    emailStatus.className = 'invalid';
+                }
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+  <div class="form-wrapper">
+    <h1>Complaint Registration</h1>
+
+    <form id="complaint-form">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="text" name="contact" placeholder="Contact Number" required>
+
+      <!-- Email Section with Send OTP button aligned -->
+        <div class="email-field-group">
+            <input type="email" id="email" name="email" placeholder="Email" required />
+            <button type="button" onclick="sendEmailOTP()">Send OTP</button>
+            <span id="email-status"></span>
+        </div>
+
+
+        <!-- OTP sent message -->
+        <span id="otp-message"></span>
+
+        <!-- OTP Input Section -->
+        <div id="otp-section" style="display: none;">
+            <div class="otp-group">
+                <input type="text" id="otp" placeholder="Enter OTP" />
+                <button type="button" id="verify-btn" onclick="verifyEmailOTP()">Verify OTP</button>
+                <span id="otp-status"></span>
+            </div>
+        </div>
+
+
+
+      <textarea name="description" placeholder="Complaint Description" required></textarea>
+      <input type="file" name="photo" accept="image/*">
+      <input type="text" name="location" placeholder="Location" required>
+      <button type="submit">Submit Complaint</button>
+    </form>
+  </div>
+
+
+    <script>
+    let emailVerified = false;
+
+    function sendEmailOTP() {
+        const email = document.getElementById('email').value;
+        const emailStatus = document.getElementById('email-status');
+
+        // Basic email format check
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailRegex.test(email)) {
+            alert("Enter a valid email address.");
+            return;
+        }
+
+        fetch('/send-email-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('otp-section').style.display = 'block';
+                const sendBtn = document.querySelector('button[onclick="sendEmailOTP()"]');
+                if (sendBtn) {
+                    sendBtn.textContent = 'Resend OTP';
+                }
+                let otpMsg = document.getElementById('otp-message');
+                
+                otpMsg.textContent = 'OTP sent to your email.';
+
+                // Hide message after 4 seconds
+                setTimeout(() => {
+                    otpMsg.textContent = '';
+                }, 10000);
+            } else {
+                alert("Failed to send OTP.");
+            }
+        });
+    }
+
+    function verifyEmailOTP() {
+        const email = document.getElementById('email').value;
+        const otp = document.getElementById('otp').value;
+
+        fetch('/verify-email-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, otp })
+        })
+        .then(res => res.json())
+        .then(data => {
+            const status = document.getElementById('otp-status');
+            if (data.verified) {
+                status.textContent = '✔️ Email Verified';
+                status.style.color = 'green';
+                emailVerified = true;
+            } else {
+                status.textContent = '❌ Invalid OTP';
+                status.style.color = 'red';
+                emailVerified = false;
+                setTimeout(() => {
+                    status.textContent = '';
+                }, 4000);
+            }
+            
+        });
+    }
+
+    // Prevent complaint submission unless email is verified
+    document.getElementById('complaint-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        if (!emailVerified) {
+            alert("Please verify your email before submitting.");
+            return;
+        }
+
+        const formData = new FormData(this);
+        fetch('/submit-complaint', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = `/confirmation?id=${data.complaintId}`;
+            } else {
+                alert(data.message || 'Error submitting complaint');
+            }
+        })
+        .catch(error => console.log('Error:', error));
+    });
+    </script>
+</body>
+</html>

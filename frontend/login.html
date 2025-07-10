@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complaints Viewer</title>
+</head>
+<body>
+    <h1>View Complaints</h1>
+    <button onclick="loadComplaints()">Load Complaints</button>
+    <br><br>
+
+    <table border="1" id="complaintsTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>ID</th><th>Name</th><th>Contact</th><th>Email</th>
+                <th>Description</th><th>Location</th><th>Photo</th>
+            </tr>
+        </thead>
+        <tbody id="complaintsBody"></tbody>
+    </table>
+
+    <script>
+    function loadComplaints() {
+        fetch('/getcomplaints')
+            .then(response => response.json())
+            .then(data => {
+                const table = document.getElementById('complaintsTable');
+                const body = document.getElementById('complaintsBody');
+                body.innerHTML = ""; // Clear existing rows
+                data.forEach(c => {
+                    const row = `
+                        <tr>
+                            <td>${c.complaintId}</td>
+                            <td>${c.name}</td>
+                            <td>${c.contact}</td>
+                            <td>${c.email}</td>
+                            <td>${c.description}</td>
+                            <td>${c.location}</td>
+                            <td>${c.photo ? `<img src="/${c.photo}" width="100"/>` : 'No Photo'}</td>
+                        </tr>`;
+                    body.innerHTML += row;
+                });
+
+
+                table.style.display = 'table';
+            })
+            .catch(err => {
+                console.error('Failed to load complaints:', err);
+                alert("Error loading complaints.");
+            });
+    }
+</script>
+
+</body>
+</html>

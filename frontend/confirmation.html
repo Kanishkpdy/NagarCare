@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Confirmation</title>
+    <link rel="stylesheet" href="confirmation.css">
+</head>
+<body>
+    <h1>Complaint Registered Successfully</h1>
+    <p>Your Complaint ID is: <span id="complaint-id"></span></p>
+    <a href="/">Go back to submit another complaint</a>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const complaintId = urlParams.get('id');
+        document.getElementById('complaint-id').textContent = complaintId;
+    </script>
+</body>
+</html>

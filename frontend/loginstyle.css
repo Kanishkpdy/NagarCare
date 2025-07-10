@@ -1,0 +1,331 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Condensed&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url('bgimg.jpg');
+    height: 100vh;
+    margin-top: 8%;
+    height:100%;
+}
+
+.container{
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    position: relative;
+    margin: auto;
+    margin-top: 35px;
+    margin-bottom: 60px;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+}
+
+.container p{
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 20px 0;
+}
+
+.container span{
+    font-size: 12px;
+}
+
+.container a{
+    color: #000000;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 15px 0 10px;
+}
+
+.container button{
+    background-color: #000000;
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.container button.hidden{
+    background-color: transparent;
+    border-color: #fff;
+}
+
+.container form{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    height: 100%;
+}
+
+.container input{
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.form-container{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in{
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.container.active .sign-in{
+    transform: translateX(100%);
+}
+
+.sign-up{
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.container.active .sign-up{
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: move 0.6s;
+}
+
+@keyframes move{
+    0%, 49.99%{
+        opacity: 0;
+        z-index: 1;
+    }
+    50%, 100%{
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+.social-icons{
+    margin: 20px 0;
+}
+
+.social-icons a{
+    border: 1px solid #ccc;
+    border-radius: 20%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+    width: 40px;
+    height: 40px;
+}
+
+.toggle-container{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    border-radius: 150px 0 0 100px;
+    z-index: 1000;
+}
+
+.container.active .toggle-container{
+    transform: translateX(-100%);
+    border-radius: 0 150px 100px 0;
+}
+
+.toggle{
+    background-color: #000000;
+    height: 100%;
+    background: linear-gradient(to bottom,#9c51cb 40%, #660eda );
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.container.active .toggle{
+    transform: translateX(50%);
+}
+
+.toggle-panel{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 30px;
+    text-align: center;
+    top: 0;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.toggle-left{
+    transform: translateX(-200%);
+}
+
+.container.active .toggle-left{
+    transform: translateX(0);
+}
+
+.toggle-right{
+    right: 0;
+    transform: translateX(0);
+}
+
+.container.active .toggle-right{
+    transform: translateX(200%);
+}
+
+.navbar {
+    background: transparent;
+    border-radius: 30px;
+    padding: 0px;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    font-size: 16px;
+}
+
+.navbar ul {
+    overflow: hidden;
+    padding: -20px;
+}
+
+.navbar li {
+    font-family: 'Ubuntu Condensed', sans-serif;
+    margin: 10px 20px;
+    float: left;
+    list-style: none;
+    padding: 6px 6px;
+
+}
+.navbar li a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+.navbar li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
+}
+.login{
+    background-color: rgba(94, 91, 91, 0.4);
+    font-family: 'Ubuntu Condensed', sans-serif;
+    height: 30px;
+    width: 70px;
+    position: relative;
+    border: 0;
+    margin: 1800px;
+    border-radius: 15px;
+    margin: 8px;
+    padding: 3px;
+    right: -300px;
+    font-weight: bold;
+}
+.img{
+    margin-top: -6px;
+    margin-left: -20px;
+}
+.footer {
+    background-image:linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url('ftimg.jpg');
+    background-repeat:no-repeat ;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    margin: 0px;
+    width: 100%;
+    box-shadow: 0 0 20px 2px rgba(0,0,0,0.8);
+}
+.fl{
+    display:flex;
+    justify-content: space-around;
+    padding:40px;
+}
+.f1{
+    width:300px;
+}
+.f2{
+    width:500px;
+}
+.f3{
+    width:300px;
+}
+.subscription-form {
+    margin-bottom: 20px;
+}
+.subscription-form input[type="email"] {
+    padding: 10px;
+    font-size: 16px;
+    width: 70%;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.subscription-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.subscription-form button:hover {
+    background-color: #45a049;
+}
+.bar2{
+    width:90%;
+}
+.srch{
+    background-color: rgba(94, 91, 91, 0.4);
+    font-family: 'Ubuntu Condensed', sans-serif;
+    height: 30px;
+    width: 120px;
+    position: relative;
+    border: 0;
+    border-radius: 15px;
+    margin: 8px;
+    padding: 3px;
+    right: -300px;
+    font-weight: bold;
+}
+.login:hover{
+    background-color: rgb(3, 135, 150);
+    font-size: medium;
+    cursor: pointer;
+}
