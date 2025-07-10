@@ -125,11 +125,11 @@ The Nagar Care Team`
             }
         });
 
+        
         //Sent mail to respective authoroties of nagar nigam
         const authorityEmails = [
-            'commissioner@nagar-nigam.gov.in',
-            'mayor@nagar-nigam.gov.in',
-            'grievance@nagar-nigam.gov.in'
+            '#@gmail.com',
+            '#@gmail.com'
             ];
         // Email to Nagar Nigam Authorities on behalf of user
                 const authorityMail = {
@@ -167,7 +167,13 @@ Thank you for your attention to this matter.
 
 Sincerely,  
 NagarCare Team  
-📮 nagarcare@gmail.com`
+📮 nagarcare@gmail.com`,
+attachments: photoPath ? [
+        {
+            filename: req.file.originalname,
+            path: photoPath
+        }
+    ] : []
 };
 
         transporter.sendMail(authorityMail, (error, info) => {
@@ -178,7 +184,6 @@ NagarCare Team
         }
         });
 
-        
 
 
 
