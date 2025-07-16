@@ -272,6 +272,11 @@ app.get('/complaint', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/complaint.html'));
 });
 
+//Route to contractor page
+app.get('/contractor', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/contractor.html'));
+});
+
 // Route to serve login page
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/login.html'));

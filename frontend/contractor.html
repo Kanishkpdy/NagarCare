@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NagarCare - Contractor Directory</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f5fff5;
+      color: #333;
+    }
+
+    header {
+      background-color: #2e7d32;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    .container {
+      padding: 40px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .search-filter {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    select, input, button {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    select, input {
+      width: 48%;
+    }
+
+    button {
+      background-color: #2e7d32;
+      color: white;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px 20px;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: left;
+    }
+
+    th {
+      background-color: #a5d6a7;
+      color: #1b5e20;
+    }
+
+    tr:hover {
+      background-color: #e8f5e9;
+    }
+
+    .location-box {
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 600px) {
+      select, input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>NagarCare Contractor Directory</h1>
+    <p>Find local contractors</p>
+  </header>
+
+  <div class="container">
+    <div class="location-box">
+      <button onclick="fetchLocation()">Find Contractors Near Me</button>
+      <input type="text" id="location" placeholder="Location will appear here..." readonly />
+      <div id="result"></div>
+    </div>
+
+    <div class="search-filter">
+      <input type="text" id="searchName" placeholder="Search contractor by name...">
+      <select id="areaFilter">
+        <option value="All">All Areas</option>
+        <option value="Panki">Panki</option>
+        <option value="Arya_nagar">Arya_nagar</option>
+        <option value="SwaroopNagar">SwaroopNagar</option>
+        <option value="Kakadeo">Kakadeo</option>
+        <option value="Jajmau">Jajmau</option>
+      </select>
+    </div>
+
+    <table id="contractorTable">
+      <thead>
+        <tr>
+          <th>Contractor Name</th>
+          <th>Contact Number</th>
+          <th>Area</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filled dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const contractors = [
+      { name: "Ravi Singh", phone: "9811110001", area: "Panki", category: "Mason", city: "Kanpur" },
+      { name: "Amit Kumar", phone: "9811110002", area: "Panki", category: "Electrician", city: "Kanpur" },
+      { name: "Manoj Verma", phone: "9811110003", area: "Panki", category: "Plumber", city: "Kanpur" },
+      { name: "Sanjay Yadav", phone: "9811110004", area: "Panki", category: "Labour", city: "Kanpur" },
+      { name: "Rohit Mishra", phone: "9811110005", area: "Panki", category: "Mason", city: "Kanpur" },
+
+      { name: "Ankit Sharma", phone: "9811110011", area: "Arya_nagar", category: "Electrician", city: "Kanpur" },
+      { name: "Deepak Gupta", phone: "9811110012", area: "Arya_nagar", category: "Plumber", city: "Kanpur" },
+      { name: "Vikas Singh", phone: "9811110013", area: "Arya_nagar", category: "Mason", city: "Kanpur" },
+      { name: "Sunil Kumar", phone: "9811110014", area: "Arya_nagar", category: "Labour", city: "Kanpur" },
+      { name: "Ajay Tiwari", phone: "9811110015", area: "Arya_nagar", category: "Electrician", city: "Kanpur" },
+
+      { name: "Gaurav Chauhan", phone: "9811110021", area: "SwaroopNagar", category: "Labour", city: "Kanpur" },
+      { name: "Suresh Patel", phone: "9811110022", area: "SwaroopNagar", category: "Plumber", city: "Kanpur" },
+      { name: "Naresh Tripathi", phone: "9811110023", area: "SwaroopNagar", category: "Mason", city: "Kanpur" },
+      { name: "Akhil Pandey", phone: "9811110024", area: "SwaroopNagar", category: "Electrician", city: "Kanpur" },
+      { name: "Naveen Rathi", phone: "9811110025", area: "SwaroopNagar", category: "Labour", city: "Kanpur" },
+
+      { name: "Harish Rawat", phone: "9811110031", area: "Kakadeo", category: "Electrician", city: "Kanpur" },
+      { name: "Sandeep Singh", phone: "9811110032", area: "Kakadeo", category: "Mason", city: "Kanpur" },
+      { name: "Ranjit Kumar", phone: "9811110033", area: "Kakadeo", category: "Plumber", city: "Kanpur" },
+      { name: "Mahesh Chauhan", phone: "9811110034", area: "Kakadeo", category: "Labour", city: "Kanpur" },
+      { name: "Yash Vardhan", phone: "9811110035", area: "Kakadeo", category: "Electrician", city: "Kanpur" },
+
+      { name: "Ramesh Verma", phone: "9811110041", area: "Jajmau", category: "Plumber", city: "Kanpur" },
+      { name: "Tarun Singh", phone: "9811110042", area: "Jajmau", category: "Mason", city: "Kanpur" },
+      { name: "Vijay Shukla", phone: "9811110043", area: "Jajmau", category: "Electrician", city: "Kanpur" },
+      { name: "Pradeep Maurya", phone: "9811110044", area: "Jajmau", category: "Labour", city: "Kanpur" },
+      { name: "Rajesh Yadav", phone: "9811110045", area: "Jajmau", category: "Mason", city: "Kanpur" }
+    ];
+
+    const searchInput = document.getElementById('searchName');
+    const areaFilter = document.getElementById('areaFilter');
+    const tbody = document.querySelector('#contractorTable tbody');
+
+    function filterTable() {
+      const nameQuery = searchInput.value.toLowerCase();
+      const selectedArea = areaFilter.value;
+      tbody.innerHTML = '';
+      const filtered = contractors.filter(c =>
+        (selectedArea === 'All' || c.area === selectedArea) &&
+        c.name.toLowerCase().includes(nameQuery)
+      );
+      tbody.innerHTML = filtered.map(c => `
+        <tr>
+          <td>${c.name}</td>
+          <td>${c.phone}</td>
+          <td>${c.area}</td>
+          <td>${c.category}</td>
+        </tr>`).join('');
+    }
+
+    areaFilter.addEventListener('change', filterTable);
+    searchInput.addEventListener('input', filterTable);
+
+    function fetchLocation() {
+      const locationInput = document.getElementById("location");
+      const resultDiv = document.getElementById("result");
+      tbody.innerHTML = '';
+      locationInput.value = "Fetching your location...";
+      resultDiv.innerHTML = "";
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async function (position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`);
+            const data = await response.json();
+            const address = data.address;
+            const rawArea = address.neighbourhood || address.suburb || address.village || address.locality || address.town || address.city || "";
+            const normalizedArea = rawArea.trim().toLowerCase();
+            locationInput.value = rawArea || "Area not found";
+
+            const matched = contractors.filter(c =>
+              c.city.toLowerCase() === "kanpur" &&
+              normalizedArea.includes(c.area.toLowerCase())
+            );
+
+            if (matched.length) {
+              resultDiv.innerHTML = `<strong>Contractors in ${rawArea}</strong>`;
+              tbody.innerHTML = matched.map(c => `
+                <tr>
+                  <td>${c.name}</td>
+                  <td>${c.phone}</td>
+                  <td>${c.area}</td>
+                  <td>${c.category}</td>
+                </tr>
+              `).join('');
+            } else {
+              const fallback = contractors.filter(c => c.city.toLowerCase() === "kanpur");
+              resultDiv.innerHTML = `<p>No exact area match. Showing all Kanpur contractors instead.</p>`;
+              tbody.innerHTML = fallback.map(c => `
+                <tr>
+                  <td>${c.name}</td>
+                  <td>${c.phone}</td>
+                  <td>${c.area}</td>
+                  <td>${c.category}</td>
+                </tr>
+              `).join('');
+            }
+
+          } catch (err) {
+            console.error("Fetch error:", err);
+            locationInput.value = "Error fetching location";
+          }
+        }, function (error) {
+          console.error("Geolocation error:", error);
+          locationInput.value = "Permission denied or error";
+        });
+      } else {
+        locationInput.value = "Geolocation not supported";
+      }
+    }
+  </script>
+</body>
+
+</html>
