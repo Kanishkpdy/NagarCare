@@ -128,7 +128,7 @@ The Nagar Care Team`
         
         //Sent mail to respective authoroties of nagar nigam
         const authorityEmails = [
-            '#@gmail.com',
+            'nagarcare@gmail.com',
             '#@gmail.com'
             ];
         // Email to Nagar Nigam Authorities on behalf of user
