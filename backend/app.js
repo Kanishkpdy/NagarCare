@@ -278,7 +278,7 @@ app.get('/contractor', (req, res) => {
 });
 
 // Route to serve login page
-app.get('/login', (req, res) => {
+app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/login.html'));
 });
 
